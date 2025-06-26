@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, json
 from flask_mysqldb import MySQL
 import math
+from datetime import datetime  # 添加datetime模块用于日期处理
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
@@ -9,59 +10,65 @@ app.config['MYSQL_PASSWORD'] = '123456'
 app.config['MYSQL_DB'] = 'test'
 mysql = MySQL(app)
 
-# 分页查询日记，每次只查询一条
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    diary_id = request.args.get('id', type=int)  # 获取特定ID
+    diary_id = request.args.get('id', type=int)
     
     cur = mysql.connection.cursor()
     
-    # 查询特定日记（如果有ID参数）
     if diary_id:
         cur.execute("SELECT id, date, text, images FROM posts WHERE id = %s", (diary_id,))
     else:
-        # 计算偏移量
         offset = (page - 1)
-        # 查询当前页的日记（每次只查询一条）
         cur.execute("SELECT id, date, text, images FROM posts ORDER BY id ASC LIMIT 1 OFFSET %s", (offset,))
     
     diary = cur.fetchone()
     
-    # 查询总数量
     cur.execute("SELECT COUNT(*) FROM posts")
     total = cur.fetchone()[0]
     cur.close()
     
-    # 处理JSON格式的图片数组
-    processed_diary = {}
+    processed_diary = None
     if diary:
         try:
-            # 解析JSON数据并提取图片URL
+            # 将日期字符串转换为datetime对象
+            diary_date = datetime.fromisoformat(diary[1]) if isinstance(diary[1], str) else diary[1]
+            
             images_data = json.loads(diary[3]) if diary[3] and diary[3] != 'null' else []
-            # 添加基础URL前缀并提取其他信息
-            images = [{
-                "url": f"https://profile-api.hydev.org/exports/hykilp/{img['url']}" if img['url'] and not img['url'].startswith('http') else img['url'],
-                "thumb": f"https://profile-api.hydev.org/exports/hykilp/{img['thumb']}" if img.get('thumb') and not img['thumb'].startswith('http') else img.get('thumb', ''),
-                "width": img.get('width'),
-                "height": img.get('height'),
-                "type": img.get('media_type', 'photo'),
-                "original_name": img.get('original_name', '')
-            } for img in images_data] if isinstance(images_data, list) else []
+            images = []
+            for img in images_data if isinstance(images_data, list) else []:
+                if not img:  # 跳过空元素
+                    continue
+                image_info = {
+                    "url": f"https://profile-api.hydev.org/exports/hykilp/{img['url']}" 
+                           if img.get('url') and not img['url'].startswith('http') 
+                           else img.get('url', ''),
+                    "thumb": f"https://profile-api.hydev.org/exports/hykilp/{img['thumb']}" 
+                             if img.get('thumb') and not img['thumb'].startswith('http') 
+                             else img.get('thumb', ''),
+                    "width": img.get('width'),
+                    "height": img.get('height'),
+                    "type": img.get('media_type', 'photo'),
+                    "original_name": img.get('original_name', '未命名图片')
+                }
+                # 如果原始名称为空，提供默认值
+                if not image_info['original_name']:
+                    image_info['original_name'] = '未命名图片'
+                images.append(image_info)
         except (json.JSONDecodeError, TypeError) as e:
             print(f"Error parsing images: {e}")
             images = []
         
         processed_diary = {
             'id': diary[0],
-            'date': diary[1],
-            'text': diary[2],  # 注意：这是HTML格式文本
+            'date': diary_date,  # 使用转换后的datetime对象
+            'text': diary[2],
             'images': images
         }
     
-    total_pages = total  # 由于每页只显示一条，总页数等于总条数
+    total_pages = total
     
-    # 创建页码范围（最多显示7个页码）
     start_page = max(1, page - 3)
     end_page = min(total_pages, page + 3)
     

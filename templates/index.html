@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,18 +18,18 @@
             --hover-effect: 0 10px 30px rgba(0, 0, 0, 0.12);
             --transition: all 0.3s ease;
         }
-        
+
         body {
             font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
             color: #555;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 900px;
         }
-        
+
         /* 头部样式 */
         .header {
             text-align: center;
@@ -39,14 +40,14 @@
             box-shadow: var(--card-shadow);
             margin-bottom: 2rem;
         }
-        
+
         .header h1 {
             font-weight: 600;
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
             letter-spacing: 1px;
         }
-        
+
         /* 卡片样式 */
         .diary-card {
             border-radius: 16px;
@@ -57,12 +58,12 @@
             background: white;
             margin-bottom: 30px;
         }
-        
+
         .diary-card:hover {
             transform: translateY(-7px);
             box-shadow: var(--hover-effect);
         }
-        
+
         /* 日期样式 */
         .date-header {
             background: linear-gradient(to right, var(--secondary-color), #4cae4c);
@@ -72,12 +73,12 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .date-header span {
             font-size: 1.1rem;
             font-weight: 500;
         }
-        
+
         .id-badge {
             background: rgba(255, 255, 255, 0.25);
             color: white;
@@ -86,18 +87,18 @@
             border-radius: 20px;
             font-weight: 500;
         }
-        
+
         /* 文本内容 */
         .card-body {
             padding: 25px;
         }
-        
+
         .text-content {
             font-size: 1.1rem;
             line-height: 1.7;
             color: #444;
         }
-        
+
         /* 图片网格样式 */
         .image-grid {
             display: grid;
@@ -105,7 +106,7 @@
             gap: 15px;
             margin-top: 25px;
         }
-        
+
         .image-grid-item {
             position: relative;
             border-radius: 12px;
@@ -115,19 +116,19 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
             transition: var(--transition);
         }
-        
+
         .image-grid-item:hover {
             transform: scale(1.03);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
-        
+
         .image-grid-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             cursor: pointer;
         }
-        
+
         .image-count-badge {
             position: absolute;
             top: 10px;
@@ -142,11 +143,11 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .image-count-badge i {
             margin-right: 4px;
         }
-        
+
         .image-metadata {
             font-size: 0.82rem;
             color: #777;
@@ -156,7 +157,7 @@
             text-overflow: ellipsis;
             text-align: center;
         }
-        
+
         /* 无图片提示 */
         .no-image {
             background: linear-gradient(135deg, #f0f5ff 0%, #e3edfd 100%);
@@ -173,13 +174,13 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .no-image i {
             font-size: 3rem;
             margin-bottom: 15px;
             color: var(--primary-color);
         }
-        
+
         /* 翻页按钮 */
         .navigation-buttons {
             display: flex;
@@ -187,7 +188,7 @@
             margin: 30px auto;
             max-width: 800px;
         }
-        
+
         .navigation-buttons a {
             display: flex;
             align-items: center;
@@ -202,38 +203,38 @@
             border: none;
             color: white;
         }
-        
+
         .navigation-buttons a:hover:not(.disabled) {
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(91, 192, 222, 0.5);
         }
-        
+
         .navigation-buttons a:active:not(.disabled) {
             transform: translateY(1px);
         }
-        
+
         .navigation-buttons a.disabled {
             background: #cfd9e3;
             box-shadow: none;
             cursor: not-allowed;
         }
-        
+
         /* 分页样式 */
         .pagination-container {
             margin-top: 40px;
         }
-        
+
         .pagination {
             display: flex;
             justify-content: center;
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
-        
+
         .page-item {
             margin: 0 5px;
         }
-        
+
         .page-link {
             border-radius: 50% !important;
             width: 42px;
@@ -247,26 +248,26 @@
             background: white;
             transition: var(--transition);
         }
-        
+
         .page-link:hover {
             background: #f0f7ff;
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(91, 192, 222, 0.2);
         }
-        
+
         .page-item.active .page-link {
             background: linear-gradient(135deg, var(--primary-color), #49a9d4);
             color: white;
             border-color: var(--primary-color);
             box-shadow: 0 4px 10px rgba(91, 192, 222, 0.4);
         }
-        
+
         .page-item.disabled .page-link {
             color: #bbb;
             background: #f5f7fa;
             box-shadow: none;
         }
-        
+
         /* 无日记内容提示 */
         .empty-diary {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -278,13 +279,13 @@
             margin: 40px auto;
             max-width: 600px;
         }
-        
+
         .empty-diary i {
             font-size: 4rem;
             color: var(--accent-color);
             margin-bottom: 20px;
         }
-        
+
         /* 页脚 */
         .footer {
             text-align: center;
@@ -293,10 +294,14 @@
             margin-top: 20px;
             font-size: 0.95rem;
         }
-        
+
         /* 文本内容中的元素 */
-        .text-content h1, .text-content h2, .text-content h3,
-        .text-content h4, .text-content h5, .text-content h6 {
+        .text-content h1,
+        .text-content h2,
+        .text-content h3,
+        .text-content h4,
+        .text-content h5,
+        .text-content h6 {
             color: #3a8db8;
             font-weight: 600;
             margin-top: 1.8rem;
@@ -304,24 +309,24 @@
             border-left: 4px solid var(--primary-color);
             padding-left: 15px;
         }
-        
+
         .text-content p {
             margin-bottom: 1.5rem;
             color: #444;
         }
-        
+
         .text-content a {
             color: #3a8db8;
             text-decoration: none;
             border-bottom: 1px dotted #3a8db8;
             transition: var(--transition);
         }
-        
+
         .text-content a:hover {
             color: #2a73a3;
             border-bottom-style: solid;
         }
-        
+
         .text-content blockquote {
             border-left: 4px solid var(--accent-color);
             padding: 0.8rem 1.2rem;
@@ -331,7 +336,7 @@
             border-radius: 0 8px 8px 0;
             font-style: italic;
         }
-        
+
         .text-content pre {
             background-color: #2c3e50;
             color: #ecf0f1;
@@ -340,7 +345,7 @@
             overflow: auto;
             margin: 1.5rem 0;
         }
-        
+
         .text-content code {
             background-color: rgba(44, 62, 80, 0.1);
             color: #d35400;
@@ -348,7 +353,7 @@
             border-radius: 4px;
             font-size: 0.95rem;
         }
-        
+
         .text-content img {
             max-width: 100%;
             height: auto;
@@ -356,60 +361,61 @@
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .text-content table {
             width: 100%;
             margin: 1.5rem 0;
             border-collapse: collapse;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .text-content table th,
         .text-content table td {
             padding: 0.8rem;
             border: 1px solid #e0e6ef;
         }
-        
+
         .text-content table th {
             background-color: #f0f7ff;
             font-weight: 600;
             color: #2a73a3;
         }
-        
+
         /* 响应式调整 */
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
             }
-            
+
             .image-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
-            
+
             .navigation-buttons a {
                 padding: 8px 20px;
                 font-size: 1rem;
             }
-            
+
             .page-link {
                 width: 36px;
                 height: 36px;
                 font-size: 0.9rem;
             }
-            
+
             .card-body {
                 padding: 20px;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- 页面头部 -->
     <!-- <div class="header">
         <h1><i class="fas fa-book me-3"></i>Hykilpikonna</h1>
         <p class="mb-0"></p>
     </div> -->
-    
+
     <div class="container">
         <!-- 日记导航按钮 -->
         <!-- <div class="navigation-buttons">
@@ -420,46 +426,45 @@
                 下一篇<i class="fas fa-arrow-right ms-2"></i>
             </a>
         </div> -->
-        
+
         <!-- 日记内容 -->
         <div id="diary-container">
             {% if diary %}
             <div class="diary-card">
                 <!-- 日记日期标题 -->
                 <div class="date-header">
-                    <span><i class="far fa-calendar me-2"></i>{{ diary.date }}</span>
+                    <span><i class="far fa-calendar me-2"></i>{{ diary.date.strftime('%Y-%m-%d') }}</span>
                     <!-- <span class="id-badge"><i class="fas fa-hashtag me-1"></i>ID: {{ diary.id }}</span> -->
                 </div>
-                
+
                 <!-- 日记正文 -->
                 <div class="card-body">
                     <div class="text-content">
                         <!-- 使用safe过滤器渲染HTML -->
                         {{ diary.text|safe }}
                     </div>
-                    
+
                     <!-- 图片展示区域 -->
                     {% if diary.images and diary.images|length > 0 %}
-                        <div id="lightgallery" class="image-grid">
-                            {% for image in diary.images %}
-                            <div class="image-grid-item" 
-                                data-src="{{ image.url }}"
-                                data-sub-html="<b>{{ image.original_name }}</b><br>尺寸: {{ image.width }}×{{ image.height }}像素">
-                                <img src="{% if image.thumb %}{{ image.thumb }}{% else %}{{ image.url }}{% endif %}" 
-                                     alt="{{ image.original_name or '日记图片' }}">
-                                {% if diary.images|length > 1 %}
-                                <span class="image-count-badge">
-                                    <i class="fas fa-camera"></i>{{ loop.index }}/{{ diary.images|length }}
-                                </span>
-                                {% endif %}
-                                <div class="image-metadata">
-                                    {{ image.original_name or '未命名图片'|truncate(18) }}
-                                </div>
+                    <div id="lightgallery" class="image-grid">
+                        {% for image in diary.images %}
+                        <div class="image-grid-item" data-src="{{ image.url }}"
+                            data-sub-html="<b>{{ image.original_name }}</b><br>尺寸: {{ image.width }}×{{ image.height }}像素">
+                            <img src="{% if image.thumb %}{{ image.thumb }}{% else %}{{ image.url }}{% endif %}"
+                                alt="{{ image.original_name or '日记图片' }}">
+                            {% if diary.images|length > 1 %}
+                            <span class="image-count-badge">
+                                <i class="fas fa-camera"></i>{{ loop.index }}/{{ diary.images|length }}
+                            </span>
+                            {% endif %}
+                            <div class="image-metadata">
+                                {{ image.original_name or '未命名图片'|truncate(18) }}
                             </div>
-                            {% endfor %}
                         </div>
+                        {% endfor %}
+                    </div>
                     {% else %}
-                        <!-- <div class="no-image">
+                    <!-- <div class="no-image">
                             <i class="far fa-image"></i>
                             <div>此日记暂无图片</div>
                         </div> -->
@@ -478,7 +483,7 @@
             </div> -->
             {% endif %}
         </div>
-        
+
         <!-- 分页导航 -->
         <div class="pagination-container">
             <nav>
@@ -488,25 +493,25 @@
                             <i class="fas fa-angle-double-left"></i>
                         </a>
                     </li>
-                    
+
                     <li class="page-item {% if page <= 1 %}disabled{% endif %}">
                         <a class="page-link" href="?page={{ page-1 }}" title="上一页">
                             <i class="fas fa-angle-left"></i>
                         </a>
                     </li>
-                    
+
                     {% for p in range(start_page, end_page+1) %}
-                        <li class="page-item {% if p == page %}active{% endif %}">
-                            <a class="page-link" href="?page={{ p }}">{{ p }}</a>
-                        </li>
+                    <li class="page-item {% if p == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+                    </li>
                     {% endfor %}
-                    
+
                     <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
                         <a class="page-link" href="?page={{ page+1 }}" title="下一页">
                             <i class="fas fa-angle-right"></i>
                         </a>
                     </li>
-                    
+
                     <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
                         <a class="page-link" href="?page={{ total_pages }}" title="最后页">
                             <i class="fas fa-angle-double-right"></i>
@@ -519,7 +524,7 @@
             </p>
         </div>
     </div>
-    
+
     <!-- 页脚 -->
     <!-- <div class="footer">
         <p>© 2025 清新日记本 • 记录生活的美好时刻</p>
@@ -531,10 +536,10 @@
     <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/plugins/thumbnail/lg-thumbnail.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/plugins/fullscreen/lg-fullscreen.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/plugins/zoom/lg-zoom.min.js"></script>
-    
+
     <script>
         // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // 初始化图片画廊
             const galleryContainer = document.getElementById('lightgallery');
             if (galleryContainer) {
@@ -545,7 +550,7 @@
                     plugins: [lgThumbnail, lgFullscreen, lgZoom]
                 });
             }
-            
+
             // 调整图片容器的宽高比
             const adjustImageContainers = () => {
                 const gridItems = document.querySelectorAll('.image-grid-item');
@@ -553,32 +558,32 @@
                     item.style.height = item.offsetWidth + 'px';
                 });
             };
-            
+
             adjustImageContainers();
-            
+
             // 响应式调整
             window.addEventListener('resize', adjustImageContainers);
-            
+
             // 添加平滑滚动效果
             document.querySelectorAll('a.page-link, a.btn').forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     if (this.getAttribute('href') && this.getAttribute('href').startsWith('#')) {
                         return;
                     }
-                    
+
                     // 防止空链接
                     if (this.classList.contains('disabled') || !this.getAttribute('href')) {
                         e.preventDefault();
                         return;
                     }
-                    
+
                     // 平滑滚动到顶部
                     e.preventDefault();
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
                     });
-                    
+
                     // 延迟跳转
                     setTimeout(() => {
                         window.location.href = this.getAttribute('href');
@@ -588,4 +593,5 @@
         });
     </script>
 </body>
+
 </html>
