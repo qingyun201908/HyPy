@@ -405,28 +405,56 @@
             .card-body {
                 padding: 20px;
             }
+
+            /* 新增左下角固定图片样式 */
+            .fixed-corner-image {
+                position: fixed;
+                left: 25px;
+                bottom: 25px;
+                z-index: 1050;
+                width: 80px;
+                /* 调整为更适合目录预览的尺寸 */
+                height: auto;
+                border-radius: 8px;
+                /* 与卡片样式统一 */
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                /* 增强层次感 */
+                background: rgba(255, 255, 255, 0.2);
+                /* 背景半透明白色 */
+                backdrop-filter: blur(5px);
+                /* 毛玻璃效果 */
+                border: 2px solid rgba(91, 192, 222, 0.5);
+                /* 主题色边框 */
+                padding: 5px;
+                transition: all 0.3s ease;
+                transform: rotate(-3deg) translateY(0);
+                /* 轻微斜角效果 */
+                opacity: 0.85;
+                /* 半透明防止过多干扰 */
+            }
+
+            .fixed-corner-image:hover {
+                transform: rotate(0deg) translateY(-5px);
+                /* 悬停时调整位置 */
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+                opacity: 1;
+                /* 悬停时完全显示 */
+            }
+
+            /* 响应式调整 */
+            @media (max-width: 768px) {
+                .fixed-corner-image {
+                    width: 60px;
+                    left: 15px;
+                    bottom: 15px;
+                }
+            }
         }
     </style>
 </head>
 
 <body>
-    <!-- 页面头部 -->
-    <!-- <div class="header">
-        <h1><i class="fas fa-book me-3"></i>Hykilpikonna</h1>
-        <p class="mb-0"></p>
-    </div> -->
-
     <div class="container">
-        <!-- 日记导航按钮 -->
-        <!-- <div class="navigation-buttons">
-            <a href="?page={{ page - 1 }}" class="{% if page <= 1 %}disabled{% endif %}">
-                <i class="fas fa-arrow-left me-2"></i>上一篇
-            </a>
-            <a href="?page={{ page + 1 }}" class="{% if page >= total_pages %}disabled{% endif %}">
-                下一篇<i class="fas fa-arrow-right ms-2"></i>
-            </a>
-        </div> -->
-
         <!-- 日记内容 -->
         <div id="diary-container">
             {% if diary %}
@@ -472,15 +500,6 @@
                 </div>
             </div>
             {% else %}
-            <!-- 无日记内容提示 -->
-            <!-- <div class="empty-diary">
-                <i class="far fa-folder-open"></i>
-                <h3>暂无日记内容</h3>
-                <p>请添加日记或尝试其他页面</p>
-                <a href="?page=1" class="btn mt-3" style="background: var(--primary-color); color: white; padding: 8px 20px; border-radius: 50px;">
-                    浏览第一篇日记
-                </a>
-            </div> -->
             {% endif %}
         </div>
 
@@ -524,13 +543,10 @@
             </p>
         </div>
     </div>
+    <!-- 在原body结束前添加以下元素 -->
+    <img src="{{ url_for('static', filename='images/a.png') }}" class="fixed-corner-image" alt="项目目录结构图"
+        title="项目文件结构：HYPY > templates > index.html | a.png | app.py">
 
-    <!-- 页脚 -->
-    <!-- <div class="footer">
-        <p>© 2025 清新日记本 • 记录生活的美好时刻</p>
-    </div>
-     -->
-    <!-- JavaScript 库 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/lightgallery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/plugins/thumbnail/lg-thumbnail.min.js"></script>
@@ -540,6 +556,16 @@
     <script>
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function () {
+
+            // 创建悬浮效果
+            const cornerImg = document.querySelector('.fixed-corner-image');
+            if (cornerImg) {
+                cornerImg.style.pointerEvents = 'auto'; // 允许交互
+                cornerImg.addEventListener('click', function () {
+                    alert('左下角图片被点击！');
+                });
+            }
+
             // 初始化图片画廊
             const galleryContainer = document.getElementById('lightgallery');
             if (galleryContainer) {
