@@ -55,7 +55,7 @@ def index():
         processed_diary = {
             'id': diary[0],
             'date': diary[1],
-            'text': diary[2],
+            'text': diary[2],  # 注意：这是HTML格式文本
             'images': images
         }
     
