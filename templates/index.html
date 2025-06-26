@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的日记平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/css/lightgallery-bundle.min.css">
+    <style>
+        .diary-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid #e9ecef;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .diary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .image-grid-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            background-color: #f8f9fa;
+        }
+        .image-grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .image-grid-item:hover img {
+            transform: scale(1.05);
+        }
+        .image-count-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            z-index: 2;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .date-header {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+        .no-image {
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 15px;
+            text-align: center;
+            padding: 15px;
+            border: 1px dashed #dee2e6;
+            border-radius: 8px;
+        }
+        .text-content {
+            margin-top: 10px;
+            line-height: 1.6;
+            font-size: 1.05rem;
+            white-space: pre-wrap;
+        }
+        .pagination {
+            margin-top: 30px;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+        .id-badge {
+            font-size: 0.8rem;
+            background-color: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        .image-metadata {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .lg-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <h1 class="text-center mb-4">我的日记本</h1>
+        
+        <!-- 日记翻页按钮 -->
+        <div class="navigation-buttons">
+            <a href="?page={{ page - 1 }}" class="btn btn-primary {% if page <= 1 %}disabled{% endif %}">上一篇</a>
+            <a href="?page={{ page + 1 }}" class="btn btn-primary {% if page >= total_pages %}disabled{% endif %}">下一篇</a>
+        </div>
+        
+        <div id="diary-container">
+            {% if diary %}
+            <div class="diary-card">
+                <div class="date-header">
+                    <span>{{ diary.date }}</span>
+                    <span class="id-badge">ID: {{ diary.id }}</span>
+                </div>
+                
+                <div class="card-body">
+                    <div class="text-content">
+                        {{ diary.text }}
+                    </div>
+                    
+                    <!-- 显示图片 -->
+                    {% if diary.images and diary.images|length > 0 %}
+                        <div id="lightgallery" class="image-grid mt-3">
+                            {% for image in diary.images %}
+                            <div class="image-grid-item" 
+                                data-src="{{ image.url }}"
+                                data-sub-html="<b>{{ image.original_name }}</b><br>尺寸: {{ image.width }}×{{ image.height }}像素">
+                                <img src="{% if image.thumb %}{{ image.thumb }}{% else %}{{ image.url }}{% endif %}" 
+                                     alt="{{ image.original_name or '日记图片' }}">
+                                {% if diary.images|length > 1 %}
+                                <span class="image-count-badge">{{ loop.index }}/{{ diary.images|length }}</span>
+                                {% endif %}
+                                <div class="image-metadata">
+                                    {{ image.original_name or '未命名图片' }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="no-image">此日记暂无图片</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <h3>暂无日记内容</h3>
+                <p>请添加日记或尝试其他页面</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- 翻页控制 -->
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                    <a class="page-link" href="?page=1">第一页</a>
+                </li>
+                
+                <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ page-1 }}">上一页</a>
+                </li>
+                
+                {% for p in range(start_page, end_page+1) %}
+                    <li class="page-item {% if p == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+                
+                <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ page+1 }}">下一页</a>
+                </li>
+                
+                <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ total_pages }}">最后页</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/lightgallery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/plugins/thumbnail/lg-thumbnail.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/plugins/fullscreen/lg-fullscreen.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/plugins/zoom/lg-zoom.min.js"></script>
+    
+    <script>
+        // 初始化图片画廊
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryContainer = document.getElementById('lightgallery');
+            if (galleryContainer) {
+                lightGallery(galleryContainer, {
+                    selector: '.image-grid-item',
+                    download: false,
+                    counter: false,
+                    plugins: [lgThumbnail, lgFullscreen, lgZoom]
+                });
+            }
+            
+            // 调整图片容器的宽高比
+            const gridItems = document.querySelectorAll('.image-grid-item');
+            gridItems.forEach(item => {
+                item.style.height = item.offsetWidth + 'px';
+            });
+        });
+        
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            const gridItems = document.querySelectorAll('.image-grid-item');
+            gridItems.forEach(item => {
+                item.style.height = item.offsetWidth + 'px';
+            });
+        });
+    </script>
+</body>
+</html>
